@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { engineType } from './propTypes';
 
 export default class Provider extends Component {
   getChildContext() {
@@ -14,9 +15,9 @@ export default class Provider extends Component {
 
 Provider.propTypes = {
   children: PropTypes.node,
-  engine: PropTypes.object,
+  engine: engineType,
 };
 
 Provider.childContextTypes = {
-  engine: PropTypes.object,
+  engine: engineType,
 };

@@ -1,12 +1,11 @@
 export default function toConsumer() {
   return (message, consumeOptions) => {
+    const { type } = message;
     this.forEach(consumerDeclaration => {
-      const [expectedMessage, consume, declarationOptions] = consumerDeclaration;
-      if (expectedMessage === message) {
+      const [expectedType, consume] = consumerDeclaration;
+      if (expectedType === type) {
         consume(message, consumeOptions);
-        return Boolean(declarationOptions.preventDefault);
       }
-      return false;
     });
   };
 }

@@ -1,4 +1,4 @@
-import toMessages from 'engine';
+import { toMessages } from 'engine';
 
 export default [
   'GIF_REQUESTED',

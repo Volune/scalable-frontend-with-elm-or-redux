@@ -1,7 +1,5 @@
-export Provider from './Provider';
-export connect from './connect';
-export component from './component';
 export toConsumer from './toConsumer';
 export toMessages from './toMessages';
-export * as MESSAGES from './messages';
+export toTransformer from './toTransformer';
+export EVENTS from './events';
 export createEngine from './createEngine';

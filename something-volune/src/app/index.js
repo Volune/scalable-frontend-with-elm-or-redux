@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { render } from 'react-dom';
-import { createEngine, component } from 'engine';
-import transformer from './transformer';
-import reducer from './reducer';
-import * as Msg from './messages';
+import { component } from 'engine/react';
+import transform from './transformer';
+import reduce from './reducer';
+import Msg from './messages';
 import GifViewer from './component/ConnectedGifViewer';
 import Button from 'modules/Button';
 import Counter from 'modules/Counter';
@@ -14,15 +14,15 @@ const App = ({
   counterValue,
   incrementByTwoEnabled,
   onNewGif,
-  onToggleIncrementByTwoToggled,
+  onIncrementByTwoToggled,
 }) => (
   <div>
     <div style={{ float: 'left' }}>
       <h2>GifViewer</h2>
-      <GifViewer onNewGif={onNewGif} />
+      <GifViewer topic="funny cats" onNewGif={onNewGif} />
     </div>
     <div style={{ float: 'left' }}>
-      <Button value={incrementByTwoEnabled} onClick={onToggleIncrementByTwoToggled} />
+      <Button value={incrementByTwoEnabled} onClick={onIncrementByTwoToggled} />
       <Counter value={counterValue} />
     </div>
   </div>
@@ -32,21 +32,20 @@ App.propTypes = {
   counterValue: PropTypes.number.isRequired,
   incrementByTwoEnabled: PropTypes.bool.isRequired,
   onNewGif: PropTypes.func,
-  onToggleIncrementByTwoToggled: PropTypes.func,
+  onIncrementByTwoToggled: PropTypes.func,
 };
 
 const mapStateToProps = (state) => state;
-const mapMessagesToProps = {
+const mapEventsToProps = () => ({
   onNewGif: Msg.GIF_RECEIVED,
-  onToggleIncrementByTwoToggled: Msg.INCREMENT_BY_TWO_TOGGLED,
-};
+  onIncrementByTwoToggled: Msg.INCREMENT_BY_TWO_TOGGLED,
+});
 
 const AssembledApp = component({
   mapStateToProps,
-  mapMessagesToProps,
-  transformer,
-  reducer,
-  engineFactory: (ignoredPropsEngine, ignoredContextEngine, options) => createEngine(options),
+  mapEventsToProps,
+  transform,
+  reduce,
 })(App);
 
 render(<AssembledApp />, document.getElementById(CONTAINER_DOM_ID));

@@ -4,14 +4,12 @@ const webpack = require('webpack');
 module.exports = {
   debug: true,
   target: 'web',
-  devtool: 'sourcemap',
+  devtool: 'source-map',
   plugins: [
     new webpack.NoErrorsPlugin(),
   ],
   entry: [
     'babel-polyfill',
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
     path.resolve(__dirname, 'src', 'app', 'index.js'),
   ],
   output: {

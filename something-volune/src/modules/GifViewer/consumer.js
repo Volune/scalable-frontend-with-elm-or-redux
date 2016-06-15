@@ -1,20 +1,23 @@
-import toConsumer from 'engine';
-import * as Msg from './messages';
+import { toConsumer } from 'engine';
+import Msg from './messages';
 
 export default [
   [
     Msg.GIF_REQUESTED,
-    ({ dispatch, getProps, getDependencies }) => {
+    (message, { dispatch, getProps, getDependencies }) => {
       const { topic } = getProps();
       getDependencies().service.fetchGif(topic).then(url => {
-        dispatch(Msg.GIF_RECEIVED, url);
+        dispatch({
+          type: Msg.GIF_RECEIVED,
+          url,
+        });
       });
     },
   ],
   [
     Msg.GIF_RECEIVED,
-    ({ args, getProps }) => {
-      const [url] = args;
+    (message, { getProps }) => {
+      const { url } = message;
       const { onNewGif } = getProps();
       if (onNewGif) {
         onNewGif(url);

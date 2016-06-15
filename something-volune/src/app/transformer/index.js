@@ -1,20 +1,24 @@
 import { toTransformer } from 'engine';
-import * as Msg from '../messages';
+import Msg from '../messages';
+
+const createCounterIncremented = (sourceMessage, { getState }) => {
+  const {
+    incrementByTwoEnabled,
+    counterValue,
+  } = getState();
+
+  const souldIncrementByTwo = incrementByTwoEnabled && counterValue >= 10;
+  return {
+    increment: souldIncrementByTwo ? 2 : 1,
+  };
+};
 
 export default [
   [
     Msg.GIF_RECEIVED,
     Msg.COUNTER_INCREMENTED,
-  ],
-  [
-    Msg.COUNTER_INCREMENTED,
-    Msg.COUNTER_INCREMENTED,
     {
-      map({ getState }) {
-        const souldIncrementByTwo = getState().incrementByTwoEnabled
-          && getState().counterValue >= 10;
-        return souldIncrementByTwo ? [2] : [1];
-      },
+      create: createCounterIncremented,
     },
   ],
 ]::toTransformer();

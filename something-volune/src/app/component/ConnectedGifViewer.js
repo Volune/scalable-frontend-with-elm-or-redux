@@ -1,6 +1,6 @@
-import { connect } from 'engine';
+import { connect } from 'engine/react';
 import GifViewer from 'modules/GifViewer';
-import * as Msg from '../messages';
+import Msg from '../messages';
 
 const mapMessagesToProps = {
   onNewGif: Msg.GIF_RECEIVED,
