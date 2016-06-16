@@ -47,13 +47,11 @@ export default function createEngine({
     try {
       const oldState = state;
 
-      console.log(`Event ${event.type}`)
       const messages = transform(event, {
         getState,
         getProps,
       });
       for (const message of messages) {
-        console.log(`Message ${message.type}`)
         consume(message, {
           getDependencies,
           getState,
