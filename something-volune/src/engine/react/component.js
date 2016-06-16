@@ -2,6 +2,7 @@ import React, { Children, Component } from 'react';
 import createEngine from '../createEngine';
 import Provider from './Provider';
 import { engineType } from './propTypes';
+import { ensureIsFunction } from './helpers';
 
 const DEFAULT_MERGE_PROPS = (stateProps, messageProps, ownProps, engine) =>
   (Object.assign({ engine }, ownProps, stateProps, messageProps));
@@ -37,6 +38,12 @@ export default function component(
     disableForwardParentEngineToChildren = false,
   }
 ) {
+  ensureIsFunction(mapStateToProps, 'mapStateToProps');
+  ensureIsFunction(mapEventsToProps, 'mapEventsToProps');
+  ensureIsFunction(mapEventsToMethods, 'mapEventsToProps');
+  ensureIsFunction(provideDependencies, 'mapEventsToProps');
+  ensureIsFunction(mapContextToDependencies, 'mapEventsToProps');
+
   return (WrappedComponent) => {
     class AssembledComponent extends Component {
       constructor(props, context) {
@@ -60,6 +67,7 @@ export default function component(
               [key]: (...args) => this.engine.dispatch({
                 type,
                 args,
+                getEmitterProps: this.getProps,
               }),
             }),
           {}

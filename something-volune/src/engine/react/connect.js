@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { engineType } from './propTypes';
+import { ensureIsFunction } from './helpers';
 
 const DEFAULT_MERGE_PROPS = (stateProps, messageProps, ownProps, engine) =>
   (Object.assign({ engine }, ownProps, stateProps, messageProps));
@@ -14,6 +15,9 @@ export default function component({
   mapEventsToProps = RETURN_NO_PROPS,
   mergeProps = DEFAULT_MERGE_PROPS,
 }) {
+  ensureIsFunction(mapStateToProps, 'mapStateToProps');
+  ensureIsFunction(mapEventsToProps, 'mapEventsToProps');
+  
   return (WrappedComponent) => {
     class ConnectedComponent extends Component {
       constructor(props, context) {
@@ -26,6 +30,7 @@ export default function component({
               [key]: (...args) => this.engine.dispatch({
                 type,
                 args,
+                getEmitterProps: this.getProps,
               }),
             }),
           {}
@@ -55,6 +60,8 @@ export default function component({
         this.subscription.unsubscribe();
         this.subscription = null;
       }
+
+      getProps = () => this.props;
 
       updatePropsFromState = () => {
         const state = this.engine.getState();

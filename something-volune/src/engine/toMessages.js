@@ -2,7 +2,14 @@ export default function toMessages() {
   return this.reduce(
     (object, key) =>
       Object.assign(object, {
-        [key]: key,
+        [key]: {
+          toString() {
+            return key;
+          },
+          toJSON() {
+            return JSON.stringify(key);
+          },
+        },
       }),
     {}
   );

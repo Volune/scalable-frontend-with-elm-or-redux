@@ -1,5 +1,5 @@
 import { connect } from 'engine/react';
-import GifViewer from 'modules/GifViewer';
+import PairOfGifPair from 'modules/PairOfGifPair';
 import Msg from '../messages';
 
 const mapEventsToProps = () => ({
@@ -8,4 +8,4 @@ const mapEventsToProps = () => ({
 
 export default connect({
   mapEventsToProps,
-})(GifViewer);
+})(PairOfGifPair);

@@ -25,7 +25,8 @@ const AssembledGifViewer = component({
 })(GifViewer);
 
 AssembledGifViewer.propTypes = {
-  topic: PropTypes.string.isRequired,
+  ...AssembledGifViewer.propTypes,
+  topic: GifViewer.propTypes.topic,
   onNewGif: PropTypes.func,
 };
 

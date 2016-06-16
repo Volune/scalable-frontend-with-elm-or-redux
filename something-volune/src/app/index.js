@@ -5,10 +5,28 @@ import transform from './transformer';
 import reduce from './reducer';
 import Msg from './messages';
 import GifViewer from './component/ConnectedGifViewer';
+import GifPair from './component/ConnectedGifPair';
+import PairOfGifPair from './component/ConnectedPairOfGifPair';
 import Button from 'modules/Button';
 import Counter from 'modules/Counter';
 
 const CONTAINER_DOM_ID = 'app';
+
+const GIF_VIEWER_TOPIC = 'funny cats';
+const GIF_PAIR_TOPICS = [
+  'funny dog',
+  'funny mouse',
+];
+const PAIR_OF_GIF_PAIR_TOPICS = [
+  [
+    'blue',
+    'green',
+  ],
+  [
+    'yellow',
+    'purple',
+  ],
+];
 
 const App = ({
   counterValue,
@@ -19,7 +37,11 @@ const App = ({
   <div>
     <div style={{ float: 'left' }}>
       <h2>GifViewer</h2>
-      <GifViewer topic="funny cats" onNewGif={onNewGif} />
+      <GifViewer topic={GIF_VIEWER_TOPIC} />
+      <h2>GifPair</h2>
+      <GifPair topics={GIF_PAIR_TOPICS} />
+      <h2>PairOfGifPair</h2>
+      <PairOfGifPair topics={PAIR_OF_GIF_PAIR_TOPICS} />
     </div>
     <div style={{ float: 'left' }}>
       <Button value={incrementByTwoEnabled} onClick={onIncrementByTwoToggled} />
@@ -37,7 +59,6 @@ App.propTypes = {
 
 const mapStateToProps = (state) => state;
 const mapEventsToProps = () => ({
-  onNewGif: Msg.GIF_RECEIVED,
   onIncrementByTwoToggled: Msg.INCREMENT_BY_TWO_TOGGLED,
 });
 
