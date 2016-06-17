@@ -2,6 +2,7 @@ import { toTransformer } from 'engine';
 import Msg from '../messages';
 
 const createCounterIncremented = (sourceMessage, { getState }) => {
+  console.log(sourceMessage)
   const {
     incrementByTwoEnabled,
     counterValue,

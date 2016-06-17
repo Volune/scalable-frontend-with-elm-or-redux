@@ -17,7 +17,7 @@ export default function component({
 }) {
   ensureIsFunction(mapStateToProps, 'mapStateToProps');
   ensureIsFunction(mapEventsToProps, 'mapEventsToProps');
-  
+
   return (WrappedComponent) => {
     class ConnectedComponent extends Component {
       constructor(props, context) {

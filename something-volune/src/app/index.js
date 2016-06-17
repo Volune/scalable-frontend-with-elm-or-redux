@@ -7,6 +7,7 @@ import Msg from './messages';
 import GifViewer from './component/ConnectedGifViewer';
 import GifPair from './component/ConnectedGifPair';
 import PairOfGifPair from './component/ConnectedPairOfGifPair';
+import GifList from './component/ConnectedGifList';
 import Button from 'modules/Button';
 import Counter from 'modules/Counter';
 
@@ -27,11 +28,14 @@ const PAIR_OF_GIF_PAIR_TOPICS = [
     'purple',
   ],
 ];
+const GIF_LIST_DEFAULT_TOPICS = [
+  'one',
+  'two',
+];
 
 const App = ({
   counterValue,
   incrementByTwoEnabled,
-  onNewGif,
   onIncrementByTwoToggled,
 }) => (
   <div>
@@ -42,6 +46,8 @@ const App = ({
       <GifPair topics={GIF_PAIR_TOPICS} />
       <h2>PairOfGifPair</h2>
       <PairOfGifPair topics={PAIR_OF_GIF_PAIR_TOPICS} />
+      <h2>GifList</h2>
+      <GifList defaultTopics={GIF_LIST_DEFAULT_TOPICS} />
     </div>
     <div style={{ float: 'left' }}>
       <Button value={incrementByTwoEnabled} onClick={onIncrementByTwoToggled} />
@@ -53,7 +59,6 @@ const App = ({
 App.propTypes = {
   counterValue: PropTypes.number.isRequired,
   incrementByTwoEnabled: PropTypes.bool.isRequired,
-  onNewGif: PropTypes.func,
   onIncrementByTwoToggled: PropTypes.func,
 };
 

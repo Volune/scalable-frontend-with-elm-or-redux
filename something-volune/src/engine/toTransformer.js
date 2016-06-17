@@ -2,21 +2,49 @@ export const ANY = {};
 export const FOUND = {};
 export const NOT_FOUND = {};
 
+const isIterable = (value) => (
+  Boolean(value) && typeof value[Symbol.iterator] === 'function'
+);
+
 export default function toTransformer() {
   const declarations = this;
+  for (const declaration of declarations) {
+    const [expectedType, emittedType] = declaration;
+    if (!expectedType) {
+      const error = new Error('Missing expected type in transformer declaration');
+      error.declaration = declaration;
+      throw error;
+    }
+    if (!emittedType) {
+      const error = new Error('Missing emitted type in transformer declaration');
+      error.declaration = declaration;
+      throw error;
+    }
+  }
 
   return function *tranform(event, transformOptions) {
-    const createEmittedMessage = (message, emittedType, declarationOptions) => {
+    function *createEmittedMessages(message, emittedType, declarationOptions) {
       if (declarationOptions.create) {
-        return {
-          ...declarationOptions.create(message, transformOptions),
+        const details = declarationOptions.create(message, transformOptions);
+        if (isIterable(details)) {
+          for (const oneMessageDetails of details) {
+            yield {
+              ...oneMessageDetails,
+              type: emittedType,
+            };
+          }
+        } else {
+          yield {
+            ...details,
+            type: emittedType,
+          };
+        }
+      } else {
+        yield {
           type: emittedType,
         };
       }
-      return {
-        type: emittedType,
-      };
-    };
+    }
 
     function *tranformMessage(message) {
       const { type } = message;
@@ -35,11 +63,13 @@ export default function toTransformer() {
             continue;
           }
           defaultPrevented = defaultPrevented || Boolean(declarationOptions.preventDefault);
-          const emittedMessage = createEmittedMessage(message, emittedType, declarationOptions);
-          if (declarationOptions.transformEmittedMessage) {
-            yield* tranformMessage(emittedMessage);
-          } else {
-            yield emittedMessage;
+          const emittedMessages = createEmittedMessages(message, emittedType, declarationOptions);
+          for (const emittedMessage of emittedMessages) {
+            if (declarationOptions.transformEmittedMessages) {
+              yield* tranformMessage(emittedMessage);
+            } else {
+              yield emittedMessage;
+            }
           }
           if (declarationOptions.stopPropagation) {
             break;
