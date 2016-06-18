@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { render } from 'react-dom';
 import { createEngine } from 'engine';
-import { component } from 'engine/react';
+import { assemble } from 'engine/react';
 import transform from './transformer';
 import reduce from './reducer';
 import Msg from './messages';
@@ -68,7 +68,7 @@ const mapEventsToProps = () => ({
   onIncrementByTwoToggled: Msg.INCREMENT_BY_TWO_TOGGLED,
 });
 
-const AssembledApp = component({
+const AssembledApp = assemble({
   engineFactory(engineOptions) {
     return createEngine({
       ...engineOptions,

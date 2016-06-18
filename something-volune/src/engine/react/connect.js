@@ -10,7 +10,7 @@ const RETURN_NO_PROPS = () => ({});
 const getDisplayName = (WrappedComponent) =>
   (WrappedComponent.displayName || WrappedComponent.name || 'Component');
 
-export default function component({
+export default function connect({
   mapStateToProps = RETURN_NO_PROPS,
   mapEventsToProps = RETURN_NO_PROPS,
   mergeProps = DEFAULT_MERGE_PROPS,

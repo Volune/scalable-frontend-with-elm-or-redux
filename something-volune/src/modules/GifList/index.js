@@ -1,6 +1,6 @@
 import { PropTypes } from 'react';
 import { createEngine } from 'engine';
-import { component } from 'engine/react';
+import { assemble } from 'engine/react';
 import GifList from './component';
 import consume from './consumer';
 import transform from './transformer';
@@ -13,7 +13,7 @@ const mapEventsToProps = () => ({
   onNewTopicChange: Msg.NEW_TOPIC_CHANGED,
 });
 
-const AssembledGifPair = component({
+const AssembledGifPair = assemble({
   engineFactory(engineOptions) {
     return createEngine({
       ...engineOptions,

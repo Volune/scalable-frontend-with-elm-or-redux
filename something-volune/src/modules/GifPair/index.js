@@ -1,11 +1,11 @@
 import { PropTypes } from 'react';
-import { component } from 'engine/react';
+import { assemble } from 'engine/react';
 import { createEngine } from 'engine';
 import GifPair from './component';
 import consume from './consumer';
 import transform from './transformer';
 
-const AssembledGifPair = component({
+const AssembledGifPair = assemble({
   engineFactory(engineOptions) {
     return createEngine({
       ...engineOptions,

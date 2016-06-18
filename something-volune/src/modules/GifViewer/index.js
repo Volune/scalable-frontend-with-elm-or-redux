@@ -1,5 +1,5 @@
 import { PropTypes } from 'react';
-import { component } from 'engine/react';
+import { assemble } from 'engine/react';
 import { createEngine } from 'engine';
 import GifViewer from './component';
 import consume from './consumer';
@@ -16,7 +16,7 @@ const provideDependencies = () => ({
   service,
 });
 
-const AssembledGifViewer = component({
+const AssembledGifViewer = assemble({
   engineFactory(engineOptions) {
     return createEngine({
       ...engineOptions,

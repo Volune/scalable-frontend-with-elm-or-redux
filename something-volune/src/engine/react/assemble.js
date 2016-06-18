@@ -16,7 +16,7 @@ const RETURN_NO_DEPENDENCIES = () => ({});
 const getDisplayName = (WrappedComponent) =>
   (WrappedComponent.displayName || WrappedComponent.name || 'Component');
 
-export default function component({
+export default function assemble({
   engineFactory,
   mapStateToProps = RETURN_NO_PROPS,
   mapEventsToProps = RETURN_NO_PROPS,
