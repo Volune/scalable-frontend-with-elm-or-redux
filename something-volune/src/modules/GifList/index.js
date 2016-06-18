@@ -4,6 +4,7 @@ import { assemble } from 'engine/react';
 import GifList from './component';
 import consume from './consumer';
 import transform from './transformer';
+import mapper from './mapper';
 import reduce from './reducer';
 import Msg from './messages';
 
@@ -17,6 +18,7 @@ const AssembledGifPair = assemble({
   engineFactory(engineOptions) {
     return createEngine({
       ...engineOptions,
+      mapper,
       transform,
       consume,
       reduce,

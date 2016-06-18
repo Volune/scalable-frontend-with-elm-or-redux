@@ -3,7 +3,7 @@ import GifViewer from 'modules/GifViewer';
 import Msg from '../messages';
 
 const mapEventsToProps = () => ({
-  onNewGif: Msg.INTERNAL_GIF_RECEIVED,
+  onNewGif: Msg.GIF_RECEIVED,
 });
 
 const ConnectedGifViewer = connect({

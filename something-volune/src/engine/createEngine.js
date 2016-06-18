@@ -3,7 +3,9 @@ import EVENTS from './events';
 const EMPTY_PROPS = {};
 const EMPTY_DEPENDENCIES = {};
 
-// Default transform doesn't dispatch other messages, doesn't prevent default
+// Default mapper returns unmodified event
+const DEFAULT_MAPPER = event => event;
+// Default transform only returns the event as a message
 const DEFAULT_TRANSFORM = event => [event];
 // Default consumer does nothing
 const DEFAULT_CONSUME = () => undefined;
@@ -14,6 +16,7 @@ const DEFAULT_GET_PROPS = () => EMPTY_PROPS;
 const DEFAULT_GET_DEPENDENCIES = () => EMPTY_DEPENDENCIES;
 
 export default function createEngine({
+  mapper = DEFAULT_MAPPER,
   transform = DEFAULT_TRANSFORM,
   consume = DEFAULT_CONSUME,
   reduce = DEFAULT_REDUCE,
@@ -47,7 +50,11 @@ export default function createEngine({
     try {
       const oldState = state;
 
-      const messages = transform(event, {
+      const mappedEvent = mapper(event, {
+        getState,
+        getApiProps,
+      });
+      const messages = transform(mappedEvent, {
         getState,
         getApiProps,
       });

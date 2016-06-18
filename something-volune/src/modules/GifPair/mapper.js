@@ -1,20 +1,20 @@
-import { toTransformer } from 'engine';
+import { toMapper } from 'engine';
 import Msg from './messages';
 
 export default [
   [
-    Msg.INTERNAL_GIF_RECEIVED,
     Msg.GIF_RECEIVED,
     {
-      create({
+      map({
         args,
         getEmitterProps,
       }) {
+        const [url] = args;
         return {
-          ...args[0],
-          pairIndex: getEmitterProps().index,
+          url,
+          index: getEmitterProps().index,
         };
       },
     },
   ],
-]::toTransformer();
+]::toMapper();
