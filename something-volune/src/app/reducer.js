@@ -1,4 +1,4 @@
-import Msg from '../messages';
+import Msg from './messages';
 
 const DEFAULT_STATE = {
   incrementByTwoEnabled: false,

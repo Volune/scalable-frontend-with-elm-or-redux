@@ -1,5 +1,5 @@
 import { toTransformer } from 'engine';
-import Msg from '../messages';
+import Msg from './messages';
 
 export default [
   [
