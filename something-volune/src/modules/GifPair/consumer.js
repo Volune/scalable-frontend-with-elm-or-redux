@@ -4,8 +4,8 @@ import Msg from './messages';
 export default [
   [
     Msg.GIF_RECEIVED,
-    (message, { getProps }) => {
-      const { onNewGif } = getProps();
+    (message, { getApiProps }) => {
+      const { onNewGif } = getApiProps();
       if (onNewGif) {
         onNewGif(message);
       }

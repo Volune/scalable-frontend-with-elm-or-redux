@@ -1,5 +1,6 @@
 import { PropTypes } from 'react';
 import { component } from 'engine/react';
+import { createEngine } from 'engine';
 import GifViewer from './component';
 import consume from './consumer';
 import reduce from './reducer';
@@ -16,12 +17,17 @@ const provideDependencies = () => ({
 });
 
 const AssembledGifViewer = component({
+  engineFactory(engineOptions) {
+    return createEngine({
+      ...engineOptions,
+      transform,
+      consume,
+      reduce,
+    });
+  },
   mapStateToProps,
   mapEventsToProps,
   provideDependencies,
-  transform,
-  consume,
-  reduce,
 })(GifViewer);
 
 AssembledGifViewer.propTypes = {

@@ -4,8 +4,8 @@ import Msg from './messages';
 export default [
   [
     Msg.GIF_REQUESTED,
-    (message, { dispatch, getProps, getDependencies }) => {
-      const { topic } = getProps();
+    (message, { dispatch, getApiProps, getDependencies }) => {
+      const { topic } = getApiProps();
       getDependencies().service.fetchGif(topic).then(url => {
         dispatch({
           type: Msg.GIF_RECEIVED,
@@ -16,9 +16,9 @@ export default [
   ],
   [
     Msg.GIF_RECEIVED,
-    (message, { getProps }) => {
+    (message, { getApiProps }) => {
       const { url } = message;
-      const { onNewGif } = getProps();
+      const { onNewGif } = getApiProps();
       if (onNewGif) {
         onNewGif(url);
       }

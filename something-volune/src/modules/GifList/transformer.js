@@ -8,11 +8,11 @@ export default [
     {
       *create(
         source,
-        { getProps }
+        { getApiProps }
       ) {
         const {
           defaultTopics = [],
-        } = getProps();
+        } = getApiProps();
         for (const topic of defaultTopics) {
           yield {
             topic,

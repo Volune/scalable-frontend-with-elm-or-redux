@@ -5,6 +5,8 @@
 This is a tentative to provide a scalable architecture, using a custom library (called `engine`
 in the code). This is highly inspired by `redux` and relative libraries. It uses `React`.
 
+The custom library is provided with the solution, and does not currently exists anywhere else.
+
 ## Concepts
 
 The architecture is inspired by redux, but introduces more elements.

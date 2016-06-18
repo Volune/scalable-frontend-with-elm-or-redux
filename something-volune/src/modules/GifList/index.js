@@ -1,4 +1,5 @@
 import { PropTypes } from 'react';
+import { createEngine } from 'engine';
 import { component } from 'engine/react';
 import GifList from './component';
 import consume from './consumer';
@@ -13,11 +14,16 @@ const mapEventsToProps = () => ({
 });
 
 const AssembledGifPair = component({
+  engineFactory(engineOptions) {
+    return createEngine({
+      ...engineOptions,
+      transform,
+      consume,
+      reduce,
+    });
+  },
   mapStateToProps,
   mapEventsToProps,
-  transform,
-  consume,
-  reduce,
 })(GifList);
 
 AssembledGifPair.propTypes = {

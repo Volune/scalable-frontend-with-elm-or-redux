@@ -1,6 +1,7 @@
 # Events and Messages
 
-Events and Messages are objects with a readable `type` member with a not `undefined` value.
+Events and Messages are objects with a `type` member.
+Here Event is just a name for messages that come from outside of the component.
 
 ```
 {

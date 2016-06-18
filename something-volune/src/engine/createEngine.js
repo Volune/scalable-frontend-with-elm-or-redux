@@ -18,7 +18,7 @@ export default function createEngine({
   consume = DEFAULT_CONSUME,
   reduce = DEFAULT_REDUCE,
   initialState = undefined,
-  getProps = DEFAULT_GET_PROPS,
+  getApiProps = DEFAULT_GET_PROPS,
   getDependencies = DEFAULT_GET_DEPENDENCIES,
 }) {
   const engine = {};
@@ -49,17 +49,17 @@ export default function createEngine({
 
       const messages = transform(event, {
         getState,
-        getProps,
+        getApiProps,
       });
       for (const message of messages) {
         consume(message, {
           getDependencies,
           getState,
-          getProps,
+          getApiProps,
           dispatch,
         });
         state = reduce(state, message, {
-          getProps,
+          getApiProps,
         });
       }
 

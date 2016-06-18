@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { render } from 'react-dom';
+import { createEngine } from 'engine';
 import { component } from 'engine/react';
 import transform from './transformer';
 import reduce from './reducer';
@@ -68,10 +69,15 @@ const mapEventsToProps = () => ({
 });
 
 const AssembledApp = component({
+  engineFactory(engineOptions) {
+    return createEngine({
+      ...engineOptions,
+      transform,
+      reduce,
+    });
+  },
   mapStateToProps,
   mapEventsToProps,
-  transform,
-  reduce,
 })(App);
 
 render(<AssembledApp />, document.getElementById(CONTAINER_DOM_ID));
