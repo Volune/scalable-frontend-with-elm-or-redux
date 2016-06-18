@@ -1,5 +1,5 @@
 import { PropTypes } from 'react';
-import { assemble } from 'engine/react';
+import { assemble, toDispatchEventDictionary } from 'engine/react';
 import { createEngine } from 'engine';
 import GifViewer from './component';
 import consumer from './consumer';
@@ -9,9 +9,9 @@ import * as service from './service';
 import Msg from './messages';
 
 const mapStateToProps = (state) => (state);
-const mapEventsToProps = () => ({
+const mapEventsToProps = {
   onRequestMore: Msg.GIF_REQUESTED,
-});
+}::toDispatchEventDictionary();
 const provideDependencies = () => ({
   service,
 });

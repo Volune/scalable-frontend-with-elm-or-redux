@@ -3,8 +3,8 @@ import Provider from './Provider';
 import { engineType } from './propTypes';
 import { ensureIsFunction } from './helpers';
 
-const DEFAULT_MERGE_PROPS = (stateProps, messageProps, apiProps, engine) =>
-  (Object.assign({ engine }, apiProps, stateProps, messageProps));
+const DEFAULT_MERGE_PROPS = (stateProps, callbackProps, apiProps, engine) =>
+  (Object.assign({ engine }, apiProps, stateProps, callbackProps));
 
 const DEFAULT_MERGE_DEPENDENCIES = (providedDependencies, apiDependencies) =>
   (Object.assign({}, providedDependencies, apiDependencies));
@@ -43,39 +43,39 @@ export default function assemble({
         const apiDependencies = mapApiToDependencies(props, context);
         this.dependencies = mergeDependencies(this.providedDependencies, apiDependencies);
 
+        const getDependencies = () => (this.dependencies);
+        const getApiProps = () => this.props;
+
         this.engine = engineFactory({
-          getDependencies: this.getDependencies,
-          getApiProps: this.getApiProps,
+          getDependencies,
+          getApiProps,
         });
 
-        this.messageProps = Object.entries(mapEventsToProps()).reduce(
-          (propsFromMessages, [key, type]) =>
-            Object.assign(propsFromMessages, {
-              [key]: (...args) => this.engine.dispatch({
-                type,
-                args,
-                getEmitterProps: this.getApiProps,
-              }),
-            }),
-          {}
-        );
+        const dispatch = (...args) => this.engine.dispatch(...args);
+        const getEmitterProps = () => this.props;
+
+        this.callbackProps = mapEventsToProps({
+          dispatch,
+          getEmitterProps,
+        });
 
         const state = this.engine.getState();
         const stateProps = mapStateToProps(state, props);
-        this.state = mergeProps(stateProps, this.messageProps, props, this.engine);
+        this.state = mergeProps(stateProps, this.callbackProps, props, this.engine);
 
         // init members that should not be overridden by mapEventsToMethods
         this.subscription = null;
 
-        Object.entries(mapEventsToApi()).forEach(([key, type]) => {
+        const callbackApiMembers = mapEventsToApi({
+          dispatch,
+          getEmitterProps,
+        });
+        for (const [key, func] of Object.entries(callbackApiMembers)) {
           if (this[key] !== undefined) {
             throw new Error(`Cannot map event to existing member ${key}`);
           }
-          this[key] = (...args) => this.engine.dispatch({
-            type,
-            args,
-          });
-        });
+          this[key] = func;
+        }
       }
 
       getChildContext() {
@@ -97,7 +97,7 @@ export default function assemble({
         if (this.props !== newProps) {
           const state = this.engine.getState();
           const stateProps = mapStateToProps(state, newProps);
-          this.setState(mergeProps(stateProps, this.messageProps, newProps, this.engine));
+          this.setState(mergeProps(stateProps, this.callbackProps, newProps, this.engine));
         }
         if (this.props !== newProps || this.context !== newContext) {
           const apiDependencies = mapApiToDependencies(newContext);
@@ -114,14 +114,10 @@ export default function assemble({
         this.subscription = null;
       }
 
-      getDependencies = () => (this.dependencies);
-
-      getApiProps = () => (this.props);
-
       updatePropsFromState = () => {
         const state = this.engine.getState();
         const stateProps = mapStateToProps(state, this.props);
-        this.setState(mergeProps(stateProps, this.messageProps, this.props, this.engine));
+        this.setState(mergeProps(stateProps, this.callbackProps, this.props, this.engine));
       };
 
       render() {

@@ -1,7 +1,3 @@
-export const ANY = {};
-export const FOUND = {};
-export const NOT_FOUND = {};
-
 export default function toMapper() {
   const declarations = this;
   for (const declaration of declarations) {

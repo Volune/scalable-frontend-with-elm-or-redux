@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { render } from 'react-dom';
 import { createEngine } from 'engine';
-import { assemble } from 'engine/react';
+import { assemble, toDispatchEventDictionary } from 'engine/react';
 import transformer from './transformer';
 import reducer from './reducer';
 import Msg from './messages';
@@ -64,9 +64,9 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => state;
-const mapEventsToProps = () => ({
+const mapEventsToProps = {
   onIncrementByTwoToggled: Msg.INCREMENT_BY_TWO_TOGGLED,
-});
+}::toDispatchEventDictionary();
 
 const AssembledApp = assemble({
   engineFactory(engineOptions) {

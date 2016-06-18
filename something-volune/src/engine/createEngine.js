@@ -103,7 +103,7 @@ export default function createEngine({
     subscribe,
   });
 
-  dispatch({
+  engine.dispatch({
     type: EVENTS.INIT,
   });
 
