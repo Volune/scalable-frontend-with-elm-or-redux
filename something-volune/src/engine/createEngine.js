@@ -5,21 +5,21 @@ const EMPTY_DEPENDENCIES = {};
 
 // Default mapper returns unmodified event
 const DEFAULT_MAPPER = event => event;
-// Default transform only returns the event as a message
-const DEFAULT_TRANSFORM = event => [event];
+// Default transformer only returns the event as a message
+const DEFAULT_TRANSFORMER = event => [event];
 // Default consumer does nothing
-const DEFAULT_CONSUME = () => undefined;
-// Default reduce returns default state undefined and ignore messages
-const DEFAULT_REDUCE = (state = undefined) => state;
+const DEFAULT_CONSUMER = () => undefined;
+// Default reducer returns default state undefined and ignore messages
+const DEFAULT_REDUCER = (state = undefined) => state;
 
 const DEFAULT_GET_PROPS = () => EMPTY_PROPS;
 const DEFAULT_GET_DEPENDENCIES = () => EMPTY_DEPENDENCIES;
 
 export default function createEngine({
   mapper = DEFAULT_MAPPER,
-  transform = DEFAULT_TRANSFORM,
-  consume = DEFAULT_CONSUME,
-  reduce = DEFAULT_REDUCE,
+  transformer = DEFAULT_TRANSFORMER,
+  consumer = DEFAULT_CONSUMER,
+  reducer = DEFAULT_REDUCER,
   initialState = undefined,
   getApiProps = DEFAULT_GET_PROPS,
   getDependencies = DEFAULT_GET_DEPENDENCIES,
@@ -54,24 +54,24 @@ export default function createEngine({
         getState,
         getApiProps,
       });
-      const messages = transform(mappedEvent, {
+      const messages = transformer(mappedEvent, {
         getState,
         getApiProps,
       });
       for (const message of messages) {
-        consume(message, {
+        consumer(message, {
           getDependencies,
           getState,
           getApiProps,
           dispatch,
         });
-        state = reduce(state, message, {
+        state = reducer(state, message, {
           getApiProps,
         });
       }
 
       if (state !== oldState) {
-        consume({
+        consumer({
           type: EVENTS.CHANGE,
           oldState,
           newState: state,

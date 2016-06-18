@@ -2,9 +2,9 @@ import { PropTypes } from 'react';
 import { assemble } from 'engine/react';
 import { createEngine } from 'engine';
 import GifViewer from './component';
-import consume from './consumer';
-import reduce from './reducer';
-import transform from './transformer';
+import consumer from './consumer';
+import reducer from './reducer';
+import transformer from './transformer';
 import * as service from './service';
 import Msg from './messages';
 
@@ -20,9 +20,9 @@ const AssembledGifViewer = assemble({
   engineFactory(engineOptions) {
     return createEngine({
       ...engineOptions,
-      transform,
-      consume,
-      reduce,
+      transformer,
+      consumer,
+      reducer,
     });
   },
   mapStateToProps,

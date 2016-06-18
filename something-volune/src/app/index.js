@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react';
 import { render } from 'react-dom';
 import { createEngine } from 'engine';
 import { assemble } from 'engine/react';
-import transform from './transformer';
-import reduce from './reducer';
+import transformer from './transformer';
+import reducer from './reducer';
 import Msg from './messages';
 import GifViewer from './component/ConnectedGifViewer';
 import GifPair from './component/ConnectedGifPair';
@@ -72,8 +72,8 @@ const AssembledApp = assemble({
   engineFactory(engineOptions) {
     return createEngine({
       ...engineOptions,
-      transform,
-      reduce,
+      transformer,
+      reducer,
     });
   },
   mapStateToProps,

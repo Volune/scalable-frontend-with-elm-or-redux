@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import { assemble } from 'engine/react';
 import { createEngine } from 'engine';
 import GifPair from './component';
-import consume from './consumer';
+import consumer from './consumer';
 import mapper from './mapper';
 
 const AssembledGifPair = assemble({
@@ -10,7 +10,7 @@ const AssembledGifPair = assemble({
     return createEngine({
       ...engineOptions,
       mapper,
-      consume,
+      consumer,
     });
   },
 })(GifPair);

@@ -2,10 +2,10 @@ import { PropTypes } from 'react';
 import { createEngine } from 'engine';
 import { assemble } from 'engine/react';
 import GifList from './component';
-import consume from './consumer';
-import transform from './transformer';
+import consumer from './consumer';
+import transformer from './transformer';
 import mapper from './mapper';
-import reduce from './reducer';
+import reducer from './reducer';
 import Msg from './messages';
 
 const mapStateToProps = (state) => (state);
@@ -19,9 +19,9 @@ const AssembledGifPair = assemble({
     return createEngine({
       ...engineOptions,
       mapper,
-      transform,
-      consume,
-      reduce,
+      transformer,
+      consumer,
+      reducer,
     });
   },
   mapStateToProps,
